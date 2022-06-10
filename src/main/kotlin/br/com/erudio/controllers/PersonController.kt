@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/person")
 class PersonController {
 
-
+/*
 
     //lateinit quer dizer que os valores serao setados posteriormente e precisa ser do tipo var
     @Autowired
@@ -59,5 +59,5 @@ class PersonController {
          service.delete(id)
         return ResponseEntity.noContent().build<Any>()
     }
-
+*/
 }
