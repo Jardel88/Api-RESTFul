@@ -3,12 +3,14 @@ package br.com.erudio.services
 import br.com.erudio.exceptions.ResourceNotFoundException
 import br.com.erudio.model.Person
 import br.com.erudio.repository.PersonRepository
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.util.logging.Logger
 
 @Service
 class PersonService {
 
+    @Autowired
     private lateinit var repository: PersonRepository
 
     private val logger = Logger.getLogger(PersonService::class.java.name)
@@ -29,7 +31,7 @@ class PersonService {
         return repository.save(person)
     }
 
-    fun update(person: Person) {
+    fun update(person: Person) : Person {
         logger.info("Updating one person with name ${person.id}.")
         val entity = repository.findById(person.id)
             .orElseThrow {ResourceNotFoundException("Id not found.")}
@@ -38,6 +40,8 @@ class PersonService {
         entity.lastName = person.lastName
         entity.address = person.address
         entity.gender = person.gender
+
+        return repository.save(entity)
     }
 
     fun delete(id: Long) {
