@@ -1,8 +1,5 @@
 package br.com.erudio.controllers
 
-import br.com.erudio.converters.NumberConverter
-import br.com.erudio.exceptions.UnsuppertedMathOperationException
-import br.com.erudio.math.SimpleMath
 import br.com.erudio.model.Person
 import br.com.erudio.services.PersonService
 import org.springframework.beans.factory.annotation.Autowired
@@ -12,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RestController
-import java.util.concurrent.atomic.AtomicLong
 
 @RestController
 @RequestMapping("/person")
