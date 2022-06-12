@@ -1,5 +1,6 @@
 package br.com.erudio.services
 
+import br.com.erudio.controllers.PersonController
 import br.com.erudio.data.vo.v1.PersonVO
 import br.com.erudio.data.vo.v2.PersonVO as PersonVOV2
 import br.com.erudio.exceptions.ResourceNotFoundException
@@ -8,6 +9,7 @@ import br.com.erudio.mapper.custom.PersonMapper
 import br.com.erudio.model.Person
 import br.com.erudio.repository.PersonRepository
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo
 import org.springframework.stereotype.Service
 import java.util.logging.Logger
 
@@ -29,10 +31,14 @@ class PersonService {
     }
 
     fun findById(id: Long): PersonVO{
-        logger.info("Finding one person.")
+        logger.info("Finding one person with ID $id.")
         var person = repository.findById(id)
             .orElseThrow {ResourceNotFoundException("Id not found.")}
-        return DozerMapper.parseObject(person, PersonVO::class.java)
+        val personVO: PersonVO = DozerMapper.parseObject(person, PersonVO::class.java)
+
+        val withSelfRel = linkTo ( PersonController::class.java ).slash(personVO.key).withSelfRel()
+        personVO.add(withSelfRel)
+        return personVO
     }
 
     fun create(person: PersonVO) : PersonVO {
@@ -47,8 +53,8 @@ class PersonService {
     }
 
     fun update(person: PersonVO) : PersonVO {
-        logger.info("Updating one person with name ${person.id}.")
-        val entity = repository.findById(person.id)
+        logger.info("Updating one person with name ${person.key}.")
+        val entity = repository.findById(person.key)
             .orElseThrow {ResourceNotFoundException("Id not found.")}
 
         entity.firstName = person.firstName
