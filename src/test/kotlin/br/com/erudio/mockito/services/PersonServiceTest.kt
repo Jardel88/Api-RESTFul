@@ -16,6 +16,7 @@ import org.mockito.Mock
 import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations
 import org.mockito.junit.jupiter.MockitoExtension
+import java.util.*
 
 @ExtendWith(MockitoExtension::class)
 internal class PersonServiceTest {
@@ -40,6 +41,21 @@ internal class PersonServiceTest {
 
     @Test
     fun findById() {
+        val person = inputObject.mockEntity(1)
+        person.id = 1
+        `when`(repository.findById(1)).thenReturn(Optional.of(person))
+
+        val result = service.findById(1)
+
+        assertNotNull(result)
+        assertNotNull(result.key)
+        assertNotNull(result.links)
+        println(result.links)
+        assertTrue(result.links.toString().contains("</api/person/v1/1>;rel=\"self\""))
+        assertEquals("Address Test1", result.address)
+        assertEquals("First Name Test1", result.firstName)
+        assertEquals("Last Name Test1", result.lastName)
+        assertEquals("Female", result.gender)
     }
 
     @Test
