@@ -1,4 +1,4 @@
-package br.com.erudio.mockito.services
+package br.com.erudio.unittests.mockito.services
 
 import br.com.erudio.exceptions.RequiredObjectIsNullException
 import br.com.erudio.repository.PersonRepository
