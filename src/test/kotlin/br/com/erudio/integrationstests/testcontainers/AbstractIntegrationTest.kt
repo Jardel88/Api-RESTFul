@@ -10,30 +10,32 @@ import java.util.stream.Stream
 
 @ContextConfiguration(initializers = [AbstractIntegrationTest.Initializer::class])
 open class AbstractIntegrationTest {
+
     internal class Initializer : ApplicationContextInitializer<ConfigurableApplicationContext>{
 
         override fun initialize(applicationContext: ConfigurableApplicationContext) {
             startContainers()
 
             val environment = applicationContext.environment
-            val testContainers = MapPropertySource(
-                "testContainers", createConnectionConfiguration()
+            val testcontainers = MapPropertySource(
+                "testcontainers", createConnectionConfiguration()
             )
-            environment.propertySources.addFirst(testContainers)
+            environment.propertySources.addFirst(testcontainers)
         }
 
-        companion object{
+        companion object {
 
-            private var mysql: MySQLContainer<*> = MySQLContainer("mysql:8.0.29")
+            private var mysql: MySQLContainer<*> = MySQLContainer("mysql:8.0.28")
+
             private fun startContainers() {
                 Startables.deepStart(Stream.of(mysql)).join()
-
             }
+
             private fun createConnectionConfiguration(): MutableMap<String, Any> {
                 return java.util.Map.of(
                     "spring.datasource.url", mysql.jdbcUrl,
                     "spring.datasource.username", mysql.username,
-                    "spring.datasource.password", mysql.password
+                    "spring.datasource.password", mysql.password,
                 )
             }
         }
