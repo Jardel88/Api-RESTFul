@@ -30,7 +30,7 @@ class JwtTokenProvider {
         algorithm = Algorithm.HMAC256(secretKey.toByteArray())
     }
 
-    fun createAccessToken(username: String, roles: List<String?>) : Token {
+    fun createAccessToken(username: String, roles: List<String?>) : TokenVO {
 
         val now = Date()
         val validity = Date(now.time + validityInMilliseconds)
