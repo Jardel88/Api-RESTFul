@@ -12,22 +12,22 @@ class User : UserDetails{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long = 0
 
-    @Column(name = "user-name", unique = true)
+    @Column(name = "user_name", unique = true)
     var userName: String? = null
 
-    @Column(name = "full-name")
+    @Column(name = "full_name")
     var fullName: String? = null
 
     @Column(name = "password")
     private var password: String? = null
 
-    @Column(name = "account-non-expired")
+    @Column(name = "account_non_expired")
     var accountNonExpired: Boolean? = null
 
-    @Column(name = "account-non-locked")
+    @Column(name = "account_non_locked")
     var accountNonLocked: Boolean? = null
 
-    @Column(name = "credentials-non-expired")
+    @Column(name = "credentials_non_expired")
     var credentialsNonExpired: Boolean? = null
 
     @Column(name = "enabled")
@@ -42,15 +42,15 @@ class User : UserDetails{
     var permissions: List<Permission>? = null
 
     val roles: List<String?>
-        get() {
+        get(){
             val roles: MutableList<String?> = ArrayList()
-            for(permission in permissions!!){
+            for (permission in permissions!!) {
                 roles.add(permission.description)
             }
             return roles
         }
 
-    override fun getAuthorities(): Collection<out GrantedAuthority> {
+    override fun getAuthorities(): Collection<GrantedAuthority> {
         return permissions!!
     }
 
